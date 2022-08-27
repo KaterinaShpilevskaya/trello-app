@@ -1,7 +1,7 @@
 :root {
-    --color-lightgreen: #7ce6c8;
+    --color-lightgreen: #58ab93;
     --color-lightred: #ea9797;
-    --color-green: #9ebabd;
-    --color-lightgray: #f2eded;
+    --color-green: rgba(158,186,189, 0.8);
+    --color-lightgray: rgba(190, 190, 190, 0.4);
     
 }
