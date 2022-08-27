@@ -1,0 +1,23 @@
+.desk__todo-btn,
+.desk__btn-remove {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    flex-direction: column;
+    border: none;
+    font-size: 1.3rem;
+}
+
+.desk__todo-btn,
+.desk__btn-remove:hover {
+    cursor: pointer;
+}
+
+.bg-light-green {
+    background-color: var(--color-lightgreen);
+}
+
+.bg-light-red {
+    background-color: var(--color-lightred);
+}

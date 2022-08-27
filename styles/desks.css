@@ -1,0 +1,27 @@
+.desks {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2em;
+    width: 100%;
+    font-size: 1.3rem;
+}
+
+.desk {
+    width: 400px;
+    height: 550px;
+    border: 1px solid black;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.desk__header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5em;
+    
+}
+
