@@ -9,9 +9,14 @@
     font-size: 1.3rem;
 }
 
-.desk__todo-btn,
+.desk__todo-btn:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
 .desk__btn-remove:hover {
     cursor: pointer;
+    opacity: 0.8;
 }
 
 .bg-light-green {
