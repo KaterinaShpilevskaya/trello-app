@@ -1,4 +1,6 @@
 .header {
+    display: flex;
+    justify-content: space-between;
     padding: 1.2em;
     border: 1px solid black;
     border-radius: 15px;
@@ -6,4 +8,12 @@
     background-color: var(--color-green);
     width: 90%;
     font-size: 1.5rem;
+}
+
+.header__clock {
+    width: 150px;
+    height: 35px;
+    background-color: var(--color-lightgreen);
+    border-radius: 10px;
+    text-align: center;
 }
