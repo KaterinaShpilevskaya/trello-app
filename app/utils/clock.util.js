@@ -4,9 +4,9 @@ export const clock =() => {
     clockLayout.clear();
 
     const date = new Date;
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
 
     if(hours<10) hours = '0' + hours;
     if(minutes<10) hours = '0' + minutes;
