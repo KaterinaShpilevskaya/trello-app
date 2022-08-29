@@ -9,8 +9,8 @@ export const clock =() => {
     let seconds = date.getSeconds();
 
     if(hours<10) hours = '0' + hours;
-    if(minutes<10) hours = '0' + minutes;
-    if(seconds<10) hours = '0' + seconds;
+    if(minutes<10) minutes = '0' + minutes;
+    if(seconds<10) seconds = '0' + seconds;
 
     clockLayout.innerHTML('afterbegin', `${hours} : ${minutes} : ${seconds}`)
 }
