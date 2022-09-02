@@ -14,6 +14,12 @@ export class DOM {
         ? document.querySelector(selector) : selector;
     }
 
+    find(selector) {
+        if(selector) {
+            return $(this.$el.querySelector(selector))
+        }
+    }
+
     addEvent(type, callback) {
         this.$el.addEventListener(type, callback);
     }
