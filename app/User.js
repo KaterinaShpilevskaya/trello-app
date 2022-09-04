@@ -33,7 +33,7 @@ export class User {
     }
   }
 
-  async fetcher(callback) {
+  async fetcher(callback, appendDesks) {
     try {
       const user = await callback();
       this.user = user;

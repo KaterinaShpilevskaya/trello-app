@@ -1,0 +1,21 @@
+.todo {
+    display: flex;
+    flex-direction: column;
+    gap: .6em;
+    background-color: var(--color-lightgreen);
+    padding: .5em;
+    border-radius: 10px;
+}
+
+.todo__header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center; 
+}
+
+.todo__desc {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center; 
+}
+

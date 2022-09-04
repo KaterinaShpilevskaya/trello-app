@@ -22,7 +22,15 @@
 .desk__header {
     display: flex;
     justify-content: space-between;
-    padding: 1.5em;
-    
+    padding: 1.5em; 
+}
+
+.desk__todo-content {
+    overflow-y: auto;
+    height: 500px;
+    padding: 2em 1.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 

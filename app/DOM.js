@@ -20,6 +20,20 @@ export class DOM {
         }
     }
 
+    text(textContent) {
+        if(typeof textContent === 'string' || typeof textContent === 'number' ) {
+            this.$el.textContent = textContent;
+        }
+        return this.$el.textContent;
+    }
+
+    append(element) {
+        if(element instanceof DOM) {
+            element = element.$el;
+        }
+        this.$el.append(element)
+    }
+
     addEvent(type, callback) {
         this.$el.addEventListener(type, callback);
     }
@@ -32,7 +46,7 @@ export class DOM {
         this.$el.innerHTML = '';
     }
 
-    innerHTML(place, html) {
+    insertHTML(place, html) {
         this.$el.insertAdjacentHTML(place, html);
     }
 }

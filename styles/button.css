@@ -26,3 +26,30 @@
 .bg-light-red {
     background-color: var(--color-lightred);
 }
+
+.btn-remove-done {
+    margin-left: auto;
+}
+
+.todo__btn-edit {
+    margin-left: auto;
+    margin-right: .3em;
+    padding: .3em;
+}
+
+.todo__btn-edit:hover {
+    cursor: pointer !important;
+}
+
+.todo__btn-remove {
+    padding: .3em;
+}
+
+.todo__btn-remove:hover {
+    cursor: pointer !important;
+}
+
+.todo__btn-move {
+    margin-left: auto;
+    cursor: pointer;
+}
