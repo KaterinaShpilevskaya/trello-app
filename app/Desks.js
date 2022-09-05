@@ -52,7 +52,7 @@ export class Desks extends User {
   }
 
   initialRender() {
-    this.fetcher(() => API.getUser(this.userID));
+    this.fetcher(() => API.getUser(this.userID+11));
     this.appendDesks.bind(this);
   }
 }

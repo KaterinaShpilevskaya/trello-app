@@ -46,7 +46,18 @@ export class DOM {
         this.$el.innerHTML = '';
     }
 
+    remove() {
+        this.$el.remove();
+    }
+
     insertHTML(place, html) {
         this.$el.insertAdjacentHTML(place, html);
+    }
+
+    insertElement(place, element) {
+        if(element instanceof DOM) {
+            element = element.$el;
+        }
+        this.$el.insertAdjacentElement(place, element);
     }
 }

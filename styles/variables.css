@@ -3,5 +3,6 @@
     --color-lightred: #ea9797;
     --color-green: rgba(158,186,189, 0.8);
     --color-lightgray: rgba(190, 190, 190, 0.4);
-    
+    --color-red: rgb(255, 0, 0);
+    --color-white: rgb(255, 255, 255);
 }

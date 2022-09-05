@@ -1,4 +1,6 @@
 import { API } from "./API.js";
+import { ERROR_FETCHING_USER } from "./constants.js";
+import { Modal } from "./Modal.js";
 
 export class User {
   #user = {};
@@ -40,7 +42,7 @@ export class User {
       this.desks = user.desks;
       this.appendDesks();
     } catch (e) {
-      console.error('fetcher():', e.message);
+      Modal.addErrorLayout(`${ERROR_FETCHING_USER}: ${e.message}`);
     }
   }
 }

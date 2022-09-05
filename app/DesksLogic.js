@@ -15,25 +15,32 @@ export class DesksLogic {
         this.desks = user.desks;
     }
 
+    applyContent(el, template) {
+        const title = template.find("[data-todo-title]");
+        title.text(el.title);
+
+        const desc = template.find("[data-todo-desc-content]");
+        desc.text(el.desc);
+
+        const user = template.find("[data-todo-user]");
+        user.text(this.user.name);
+
+        const todoDate = template.find("[data-todo-date]");
+        todoDate.text(el.date);
+    }
+
     appendCreateTodos() {
         const {create} = this.desks;
 
         createDeskCount.text(create.length);
-      create.forEach((el) => {
+
+        create.forEach((el) => {
+
         const createTemplate = $(
           document.importNode(createDeskTemplate.$el.content, true)
         );
-        const title = createTemplate.find("[data-todo-title]");
-        title.text(el.title);
 
-        const desc = createTemplate.find("[data-todo-desc-content]");
-        desc.text(el.desc);
-
-        const user = createTemplate.find("[data-todo-user]");
-        user.text(this.user.name);
-
-        const todoDate = createTemplate.find("[data-todo-date]");
-        todoDate.text(el.date);
+        this.applyContent(el, createTemplate);
 
         createContentDesk.append(createTemplate);
       });
@@ -48,17 +55,8 @@ export class DesksLogic {
         const progressTemplate = $(
           document.importNode(progressDeskTemplate.$el.content, true)
         );
-        const title = progressTemplate.find("[data-todo-title]");
-        title.text(el.title);
-
-        const desc = progressTemplate.find("[data-todo-desc-content]");
-        desc.text(el.desc);
-
-        const user = progressTemplate.find("[data-todo-user]");
-        user.text(this.user.name);
-
-        const todoDate = progressTemplate.find("[data-todo-date]");
-        todoDate.text(el.date);
+        
+        this.applyContent(el, progressTemplate);
 
         progressContentDesk.append(progressTemplate);
       });
@@ -74,17 +72,8 @@ export class DesksLogic {
         const doneTemplate = $(
           document.importNode(doneDeskTemplate.$el.content, true)
         );
-        const title = doneTemplate.find("[data-todo-title]");
-        title.text(el.title);
-
-        const desc = doneTemplate.find("[data-todo-desc-content]");
-        desc.text(el.desc);
-
-        const user = doneTemplate.find("[data-todo-user]");
-        user.text(this.user.name);
-
-        const todoDate = doneTemplate.find("[data-todo-date]");
-        todoDate.text(el.date);
+        
+        this.applyContent(el, doneTemplate);
 
         doneContentDesk.append(doneTemplate);
       });
