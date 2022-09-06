@@ -1,5 +1,3 @@
-import { API } from "./API.js";
-import { ERROR_FETCHING_USER } from "./constants.js";
 import { Modal } from "./Modal.js";
 
 export class User {
@@ -35,14 +33,14 @@ export class User {
     }
   }
 
-  async fetcher(callback, appendDesks) {
+  async fetcher(callback, appendDesks, message = '') {
     try {
       const user = await callback();
       this.user = user;
       this.desks = user.desks;
-      this.appendDesks();
+      appendDesks();
     } catch (e) {
-      Modal.addErrorLayout(`${ERROR_FETCHING_USER}: ${e.message}`);
+      Modal.addErrorLayout(`${message}: ${e.message}`);
     }
   }
 }

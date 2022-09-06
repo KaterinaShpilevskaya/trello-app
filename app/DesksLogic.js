@@ -1,3 +1,4 @@
+import { API } from "./API.js";
 import { $ } from "./DOM.js";
 import { createContentDesk,
          createDeskCount,
@@ -10,9 +11,12 @@ import { createContentDesk,
          progressDeskTemplate } from "./elements.js";
 
 export class DesksLogic {
-    constructor(user) {
+    constructor(user, fetcher, appendDesks) {
         this.user = user;
         this.desks = user.desks;
+        this.fetcher = fetcher;
+        this.appendDesks = appendDesks; 
+        this.ID = user.id;
     }
 
     applyContent(el, template) {
@@ -34,16 +38,35 @@ export class DesksLogic {
 
         createDeskCount.text(create.length);
 
-        create.forEach((el) => {
+        create.forEach(el => {
 
-        const createTemplate = $(
-          document.importNode(createDeskTemplate.$el.content, true)
-        );
+          const createTemplate = $(
+            document.importNode(createDeskTemplate.$el.content, true)
+          );
 
-        this.applyContent(el, createTemplate);
+          this.applyContent(el, createTemplate);
 
-        createContentDesk.append(createTemplate);
-      });
+          const btnMove = createTemplate.find('[data-todo-btn-relocate]');
+          btnMove.addEvent('click', () => {
+            const create = this.desks.create
+              .filter(todo => todo.id !== el.id);
+            const progress = [...this.desks.progress, el];
+            const newDesks = {
+              ...this.desks,
+              create,
+              progress,
+            }
+
+            this.fetcher(
+              () => API.putUser(this.ID, {desks:newDesks}),
+              this.appendDesks
+
+            )
+            console.log(newDesks)
+          })
+
+          createContentDesk.append(createTemplate);
+      })
     }
 
     appendProgressTodos() {

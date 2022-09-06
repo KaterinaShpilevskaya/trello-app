@@ -1,19 +1,12 @@
 import { API } from "./API.js";
 import { DesksLogic } from "./DesksLogic.js";
-import { $, DOM } from "./DOM.js";
 import {
   createContentDesk,
-  createDeskCount,
-  createDeskTemplate,
-  doneContentDesk,
-  doneDeskCount,
-  doneDeskTemplate,
   progressContentDesk,
-  progressDeskCount,
-  progressDeskTemplate,
+  doneContentDesk,
 } from "./elements.js";
 import { User } from "./User.js";
-import { getDate } from "./utils/date.util.js";
+import { ERROR_FETCHING_USER } from "./constants.js";
 
 export class Desks extends User {
   constructor(userId) {
@@ -21,11 +14,17 @@ export class Desks extends User {
   }
 
   deskLogic() {
-    return new DesksLogic(this.user);
+    return new DesksLogic(
+      this.user,
+      this.fetcher.bind(this),
+      this.appendDesks.bind(this)
+      );
   }
 
   appendDesks() {
     createContentDesk.clear();
+    progressContentDesk.clear();
+    doneContentDesk.clear();
 
     const $logic = this.deskLogic();
 
@@ -46,13 +45,14 @@ export class Desks extends User {
     if (done.length) {
         $logic.appendDoneTodos();
     } else {
-        progressContentDesk.insertHTML("afterbegin", `<p>No todos...</p>`);
+        doneContentDesk.insertHTML("afterbegin", `<p>No todos...</p>`);
     }
 
   }
 
   initialRender() {
-    this.fetcher(() => API.getUser(this.userID));
-    this.appendDesks.bind(this);
-  }
+    this.fetcher(() => API.getUser(this.userID),
+    this.appendDesks.bind(this),
+    ERROR_FETCHING_USER)
+    }
 }
