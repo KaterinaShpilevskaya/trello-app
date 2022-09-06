@@ -9,6 +9,7 @@ import { createContentDesk,
          progressContentDesk, 
          progressDeskCount, 
          progressDeskTemplate } from "./elements.js";
+import {ERROR_MOVING_USER} from './constants.js'
 
 export class DesksLogic {
     constructor(user, fetcher, appendDesks) {
@@ -59,10 +60,9 @@ export class DesksLogic {
 
             this.fetcher(
               () => API.putUser(this.ID, {desks:newDesks}),
-              this.appendDesks
-
+              this.appendDesks,
+              ERROR_MOVING_USER
             )
-            console.log(newDesks)
           })
 
           createContentDesk.append(createTemplate);
@@ -80,6 +80,42 @@ export class DesksLogic {
         );
         
         this.applyContent(el, progressTemplate);
+
+        const btnMove = progressTemplate.find('[data-todo-btn-relocate]');
+          btnMove.addEvent('click', () => {
+            const progress = this.desks.progress
+              .filter(todo => todo.id !== el.id);
+            const done = [...this.desks.done, el];
+            const newDesks = {
+              ...this.desks,
+              progress,
+              done,
+            }
+
+            this.fetcher(
+              () => API.putUser(this.ID, {desks:newDesks}),
+              this.appendDesks,
+              ERROR_MOVING_USER
+            )
+          })
+
+          const btnBack = progressTemplate.find('[data-todo-btn-back]');
+          btnBack.addEvent('click',
+            () => {
+              const progress = this.desks.progress
+              .filter(todo => todo.id !== el.id);
+              const create = [...this.desks.create, el];
+              const newDesks = {
+                ...this.desks,
+                progress,
+                create
+              }
+              this.fetcher(
+                () => API.putUser(this.ID, {desks:newDesks}),
+                this.appendDesks,
+                ERROR_MOVING_USER
+              )
+            })
 
         progressContentDesk.append(progressTemplate);
       });

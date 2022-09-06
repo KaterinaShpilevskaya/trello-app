@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: .6em;
-    background-color: var(--color-lightgreen);
+    background-color: var(--color-turquoise);
     padding: .5em;
     border-radius: 10px;
 }
@@ -13,9 +13,24 @@
     align-items: center; 
 }
 
+.header-progress {
+    background-color: var(--color-green);
+}
+
+.header-done {
+    background-color: var(--color-lighcoral);
+}
+
 .todo__desc {
     display: flex;
     justify-content: flex-start;
     align-items: center; 
 }
 
+.todo-in-progress {
+    background-color: var(--color-green);
+}
+
+.todo-done {
+    background-color: var(--color-lighcoral);
+}

@@ -23,6 +23,7 @@
     display: flex;
     justify-content: space-between;
     padding: 1.5em; 
+    background-color: var(--color-turquoise);
 }
 
 .desk__todo-content {

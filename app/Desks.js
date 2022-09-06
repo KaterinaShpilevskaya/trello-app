@@ -21,10 +21,14 @@ export class Desks extends User {
       );
   }
 
-  appendDesks() {
+  clearDesks() {
     createContentDesk.clear();
     progressContentDesk.clear();
     doneContentDesk.clear();
+  }
+
+  appendDesks() {
+    this.clearDesks();
 
     const $logic = this.deskLogic();
 
@@ -47,7 +51,6 @@ export class Desks extends User {
     } else {
         doneContentDesk.insertHTML("afterbegin", `<p>No todos...</p>`);
     }
-
   }
 
   initialRender() {
