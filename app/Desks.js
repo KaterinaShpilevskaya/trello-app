@@ -4,9 +4,11 @@ import {
   createContentDesk,
   progressContentDesk,
   doneContentDesk,
+  btnRemoveAll,
 } from "./elements.js";
 import { User } from "./User.js";
 import { ERROR_FETCHING_USER } from "./constants.js";
+import { ERROR_WHILE_REMOVING } from "./constants.js";
 
 export class Desks extends User {
   constructor(userId) {
@@ -18,7 +20,7 @@ export class Desks extends User {
       this.user,
       this.fetcher.bind(this),
       this.appendDesks.bind(this)
-      );
+    );
   }
 
   clearDesks() {
@@ -28,34 +30,27 @@ export class Desks extends User {
   }
 
   appendDesks() {
+    
     this.clearDesks();
 
     const $logic = this.deskLogic();
-
-    const { create, progress, done } = this.desks;
-
-    if (create.length) {
-        $logic.appendCreateTodos();
-    } else {
-      createContentDesk.insertHTML("afterbegin", `<p>No todos...</p>`);
-    }
-
-    if (progress.length) {
-        $logic.appendProgressTodos();
-    } else {
-        progressContentDesk.insertHTML("afterbegin", `<p>No todos...</p>`);
-    }
-
-    if (done.length) {
-        $logic.appendDoneTodos();
-    } else {
-        doneContentDesk.insertHTML("afterbegin", `<p>No todos...</p>`);
-    }
+     
+   $logic.appendCreateTodos();
+         
+   $logic.appendProgressTodos();
+       
+   $logic.appendDoneTodos();
   }
-
+  
   initialRender() {
-    this.fetcher(() => API.getUser(this.userID),
-    this.appendDesks.bind(this),
-    ERROR_FETCHING_USER)
-    }
+    this.fetcher(
+      () => API.getUser(this.userID),
+      this.appendDesks.bind(this),
+      ERROR_FETCHING_USER
+    );
+
+    btnRemoveAll.addEvent("click", () => {
+      this.deskLogic().removeAll()
+    });
+  }
 }

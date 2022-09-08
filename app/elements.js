@@ -15,6 +15,8 @@ const createContentDesk = $('[data-desk-todo-content]');
 const progressContentDesk = $('[data-desk-progress-content]');
 const doneContentDesk = $('[data-desk-done-content]');
 
+const btnRemoveAll = $('[data-desk-remove-btn]');
+
 
 export {
     root,
@@ -28,4 +30,5 @@ export {
     createContentDesk,
     progressContentDesk,
     doneContentDesk,
+    btnRemoveAll,
 }

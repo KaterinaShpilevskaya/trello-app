@@ -9,7 +9,10 @@ import { createContentDesk,
          progressContentDesk, 
          progressDeskCount, 
          progressDeskTemplate } from "./elements.js";
-import {ERROR_MOVING_USER} from './constants.js'
+import {ERROR_MOVING_USER} from './constants.js';
+import {ERROR_WHILE_REMOVING} from './constants.js';
+import { Modal } from "./Modal.js";
+
 
 export class DesksLogic {
     constructor(user, fetcher, appendDesks) {
@@ -39,6 +42,8 @@ export class DesksLogic {
 
         createDeskCount.text(create.length);
 
+
+        if (create.length) {
         create.forEach(el => {
 
           const createTemplate = $(
@@ -49,6 +54,11 @@ export class DesksLogic {
 
           const btnMove = createTemplate.find('[data-todo-btn-relocate]');
           btnMove.addEvent('click', () => {
+            const limit = 5;
+            if(this.desks.progress.length >=limit) {
+              Modal.addWarningLimitLayout(limit);
+              return;
+            }
             const create = this.desks.create
               .filter(todo => todo.id !== el.id);
             const progress = [...this.desks.progress, el];
@@ -58,15 +68,32 @@ export class DesksLogic {
               progress,
             }
 
-            this.fetcher(
-              () => API.putUser(this.ID, {desks:newDesks}),
-              this.appendDesks,
-              ERROR_MOVING_USER
-            )
+            this.putFetcher (newDesks, ERROR_MOVING_USER);
           })
+
+          const btnRemove = createTemplate.find('[data-todo-btn-remove]');
+          btnRemove.addEvent('click', 
+            () => {
+              const create = this.desks.create
+                .filter(todo => todo.id !== el.id);
+              const newDesks = {...this.desks, create};
+              this.putFetcher (newDesks, ERROR_WHILE_REMOVING);
+            }
+            )
 
           createContentDesk.append(createTemplate);
       })
+     } else {
+      createContentDesk.insertHTML("afterbegin", `<p>No todos...</p>`);
+    }
+    }
+
+    putFetcher (desks, message = '') {
+      this.fetcher(
+        () => API.putUser(this.ID, {desks}),
+        this.appendDesks,
+        message
+      )
     }
 
     appendProgressTodos() {
@@ -74,6 +101,7 @@ export class DesksLogic {
 
         progressDeskCount.text(progress.length);
 
+        if (progress.length) {
         progress.forEach(el => {
         const progressTemplate = $(
           document.importNode(progressDeskTemplate.$el.content, true)
@@ -92,11 +120,7 @@ export class DesksLogic {
               done,
             }
 
-            this.fetcher(
-              () => API.putUser(this.ID, {desks:newDesks}),
-              this.appendDesks,
-              ERROR_MOVING_USER
-            )
+            this.putFetcher (newDesks, ERROR_MOVING_USER);
           })
 
           const btnBack = progressTemplate.find('[data-todo-btn-back]');
@@ -110,16 +134,24 @@ export class DesksLogic {
                 progress,
                 create
               }
-              this.fetcher(
-                () => API.putUser(this.ID, {desks:newDesks}),
-                this.appendDesks,
-                ERROR_MOVING_USER
-              )
+              this.putFetcher (newDesks, ERROR_MOVING_USER);
             })
+
+            const btnRemove = progressTemplate.find('[data-todo-btn-remove]');
+          btnRemove.addEvent('click', 
+            () => {
+              const progress = this.desks.progress
+                .filter(todo => todo.id !== el.id);
+              const newDesks = {...this.desks, progress};
+              this.putFetcher (newDesks, ERROR_WHILE_REMOVING);
+            }
+            )
 
         progressContentDesk.append(progressTemplate);
       });
-
+    } else {
+      progressContentDesk.insertHTML("afterbegin", `<p>No todos...</p>`);
+    }
     }
 
     appendDoneTodos() {
@@ -127,6 +159,7 @@ export class DesksLogic {
 
         doneDeskCount.text(done.length);
 
+        if (done.length) {
         done.forEach(el => {
         const doneTemplate = $(
           document.importNode(doneDeskTemplate.$el.content, true)
@@ -134,7 +167,29 @@ export class DesksLogic {
         
         this.applyContent(el, doneTemplate);
 
+        const btnRemove = doneTemplate.find('[data-todo-btn-remove]');
+          btnRemove.addEvent('click', 
+            () => {
+              const done = this.desks.done
+                .filter(todo => todo.id !== el.id);
+              const newDesks = {...this.desks, done};
+              this.putFetcher (newDesks, ERROR_WHILE_REMOVING);
+            }
+            )
+
         doneContentDesk.append(doneTemplate);
       });
+    } else {
+      doneContentDesk.insertHTML("afterbegin", `<p>No todos...</p>`);
     }
+    }
+
+      removeAll() {
+        const remove = () => {
+          const newDesks = {...this.desks,done: [],};
+
+          this.putFetcher(newDesks, ERROR_WHILE_REMOVING);
+        }
+        Modal.addWarningRemoveLayout(remove);
+      }
 }
