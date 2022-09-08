@@ -1,6 +1,6 @@
 .desks {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 2em;
     width: 100%;
@@ -8,7 +8,7 @@
 }
 
 .desk {
-    width: 400px;
+    width: 350px;
     height: 550px;
     border: 1px solid black;
     border-radius: 15px;
@@ -35,9 +35,5 @@
     gap: 1em;
 }
 
-@media (max-width: 1280px) {
-    .desk {
-        width: 300px;
-    }
-}
+
 
