@@ -1,10 +1,12 @@
 import { DOM } from './DOM.js';
 import { root } from './elements.js';
+import { getDate } from './utils/date.util.js';
 
 export class Modal {
     static #errorLayout;
     static #loader;
     static #warningModal;
+    static #newTodoLayout;
 
 
     static addLoaderLayout() {
@@ -104,5 +106,92 @@ export class Modal {
 
         root.insertElement('afterend', warningElement);
     }
+
+    static addNewTodoLayout(callback) {
+        const newTodoElement = DOM.create('div', 'modal', 'modal--toggle');
+        const formNewTodo = DOM.create('form', 'modal__new-todo');
+
+        formNewTodo.insertHTML('afterbegin', `
+            <h3 class="new-todo__header">New todo:</h3>    
+            <input type="text" class="new-todo__title" placeholder="Enter todo title" required>
+            <textarea class="new-todo__description" minlength ="3" maxlength ="50" placeholder="Enter todo description" required></textarea>
+
+            <div class="new-todo__buttons">
+                <button type="button" class="new-todo__cancel" data-btn-cancel>cancel</button>
+                <button type="submit" class="new-todo__add" data-btn-add>add</button>
+            </div>
+        `)
+
+        formNewTodo.addEvent('click', (e) => {
+            if('btnCancel' in e.target.dataset) {
+                this.removeNewTodoLayout()
+            }
+        })
+
+        formNewTodo.addEvent('submit', (e) => {
+            e.preventDefault();
+            const form = e.currentTarget;
+            const title = form.elements[0].value;
+            const desc = form.elements[1].value;
+            const date = getDate();
+            
+            
+            callback({id: Date.now(), title, desc, date}) 
+            this.removeNewTodoLayout()
+            
+        })
+
+        newTodoElement.append(formNewTodo);
+
+        Modal.#newTodoLayout = newTodoElement;
+
+        root.insertElement('afterend', newTodoElement);
+    }
+
+    static removeNewTodoLayout() {
+        if(Modal.#newTodoLayout) {
+            Modal.#newTodoLayout.remove();
+        }
+    }
+
+    static addEditTodoLayout(el, callback) {
+        const editTodoElement = DOM.create('div', 'modal', 'modal--toggle');
+        const formEditTodo = DOM.create('form', 'modal__new-todo');
+
+        formEditTodo.insertHTML('afterbegin', `
+            <h3 class="new-todo__header">Edit todo:</h3>    
+            <input type="text" class="new-todo__title" placeholder="Enter todo title" value = "${el.title}" required>
+            <textarea class="new-todo__description" minlength ="3" maxlength ="50" placeholder="Enter todo description" required>${el.desc}</textarea>
+
+            <div class="new-todo__buttons">
+                <button type="button" class="new-todo__cancel" data-btn-cancel>cancel</button>
+                <button type="submit" class="new-todo__add" data-btn-edit>edit</button>
+            </div>
+        `)
+
+        formEditTodo.addEvent('click', (e) => {
+            if('btnCancel' in e.target.dataset) {
+                this.removeNewTodoLayout()
+            }
+        })
+
+        formEditTodo.addEvent('submit', (e) => {
+            e.preventDefault();
+            const form = e.currentTarget;
+            const title = form.elements[0].value;
+            const desc = form.elements[1].value;
+            const date = getDate();
+            
+            callback({id: Date.now(), title, desc, date}) 
+            this.removeNewTodoLayout()
+            
+        })
+
+        editTodoElement.append(formEditTodo);
+
+        Modal.#newTodoLayout = editTodoElement;
+
+        root.insertElement('afterend', editTodoElement);
+    } 
     
 }

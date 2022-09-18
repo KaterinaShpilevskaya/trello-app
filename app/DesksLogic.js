@@ -9,7 +9,7 @@ import { createContentDesk,
          progressContentDesk, 
          progressDeskCount, 
          progressDeskTemplate } from "./elements.js";
-import {ERROR_MOVING_USER} from './constants.js';
+import {ERROR_MOVING_USER, ERROR_WHILE_CREATING_TODO, ERROR_WHILE_EDITING} from './constants.js';
 import {ERROR_WHILE_REMOVING} from './constants.js';
 import { Modal } from "./Modal.js";
 
@@ -78,9 +78,24 @@ export class DesksLogic {
                 .filter(todo => todo.id !== el.id);
               const newDesks = {...this.desks, create};
               this.putFetcher (newDesks, ERROR_WHILE_REMOVING);
-            }
-            )
+            })
 
+            const btnEdit = createTemplate.find('[data-todo-btn-edit]'); 
+            btnEdit.addEvent('click', () => {
+              const editTodo = (newEl) => {
+                const create = [...this.desks.create]
+                  .map(todo => {
+                    if(todo.id === el.id) {
+                      return newEl;
+                    } else {
+                      return todo; 
+                    }
+                  });
+                  const newDesks = {...this.desks, create};
+                  this.putFetcher(newDesks, ERROR_WHILE_EDITING, true);
+              }
+              Modal.addEditTodoLayout(el, editTodo);
+            })
           createContentDesk.append(createTemplate);
       })
      } else {
@@ -88,9 +103,9 @@ export class DesksLogic {
     }
     }
 
-    putFetcher (desks, message = '') {
+    putFetcher (desks, message = '', isLoader = false) {
       this.fetcher(
-        () => API.putUser(this.ID, {desks}),
+        () => API.putUser(this.ID, {desks}, isLoader),
         this.appendDesks,
         message
       )
@@ -120,7 +135,7 @@ export class DesksLogic {
               done,
             }
 
-            this.putFetcher (newDesks, ERROR_MOVING_USER);
+            this.putFetcher (newDesks, ERROR_MOVING_USER, true);
           })
 
           const btnBack = progressTemplate.find('[data-todo-btn-back]');
@@ -191,5 +206,15 @@ export class DesksLogic {
           this.putFetcher(newDesks, ERROR_WHILE_REMOVING);
         }
         Modal.addWarningRemoveLayout(remove);
+      }
+
+      addNewTodo() {
+        const createTodo = (newTodo) => {
+          const create = [...this.desks.create, newTodo];
+          const newDesks = {...this.desks, create};
+          this.putFetcher(newDesks, ERROR_WHILE_CREATING_TODO, true);
+        }
+
+        Modal.addNewTodoLayout(createTodo);
       }
 }

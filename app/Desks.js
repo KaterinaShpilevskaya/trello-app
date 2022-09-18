@@ -5,6 +5,9 @@ import {
   progressContentDesk,
   doneContentDesk,
   btnRemoveAll,
+  btnAddTodo,
+  headerUserName,
+  headerUserAvatar,
 } from "./elements.js";
 import { User } from "./User.js";
 import { ERROR_FETCHING_USER } from "./constants.js";
@@ -32,6 +35,8 @@ export class Desks extends User {
   appendDesks() {
     
     this.clearDesks();
+    headerUserName.text(this.user.name);
+    headerUserAvatar.$el.src = this.user.avatar;
 
     const $logic = this.deskLogic();
      
@@ -51,6 +56,10 @@ export class Desks extends User {
 
     btnRemoveAll.addEvent("click", () => {
       this.deskLogic().removeAll()
+    });
+
+    btnAddTodo.addEvent('click', () => {
+      this.deskLogic().addNewTodo()
     });
   }
 }

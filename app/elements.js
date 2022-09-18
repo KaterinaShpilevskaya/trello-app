@@ -16,6 +16,11 @@ const progressContentDesk = $('[data-desk-progress-content]');
 const doneContentDesk = $('[data-desk-done-content]');
 
 const btnRemoveAll = $('[data-desk-remove-btn]');
+const btnAddTodo = $('[data-desk-add-btn]');
+
+const headerUserName = $('[data-header-username]');
+const headerUserAvatar = $('[data-header-avatar]');
+
 
 
 export {
@@ -31,4 +36,7 @@ export {
     progressContentDesk,
     doneContentDesk,
     btnRemoveAll,
+    btnAddTodo,
+    headerUserName,
+    headerUserAvatar,
 }

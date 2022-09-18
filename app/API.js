@@ -25,7 +25,7 @@ export class API {
         }
     }
     
-    static async putUser(id, body) {
+    static async putUser(id, body, isLoader = false) {
         const bodyContent = JSON.stringify(body);
 
         const headerList = {
@@ -36,9 +36,13 @@ export class API {
             body:bodyContent,
             headers: headerList,
         }
+
+        if(isLoader) Modal.addLoaderLayout();
+
         const response = await fetch(API.#route + id, options);
         if(response.ok) {
             const user = await response.json();
+            if(isLoader) setTimeout(Modal.removeLoaderLayout, 200);
             return user;
         } else {
             throw new Error (response.statusText);
