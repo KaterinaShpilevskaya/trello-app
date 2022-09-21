@@ -10,7 +10,7 @@
 }
 
 .desk__todo-btn:hover {
-    cursor: pointer;
+    cursor: pointer!important;
     opacity: 0.8;
 }
 

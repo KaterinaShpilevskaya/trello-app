@@ -11,11 +11,19 @@ import {
 } from "./elements.js";
 import { User } from "./User.js";
 import { ERROR_FETCHING_USER } from "./constants.js";
-import { ERROR_WHILE_REMOVING } from "./constants.js";
 
 export class Desks extends User {
   constructor(userId) {
     super(userId);
+
+    btnRemoveAll.addEvent('click', () => {
+      this.deskLogic().removeAll();
+  })
+
+  btnAddTodo.addEvent('click', () => {
+      this.deskLogic().addNewTodo();
+  })
+
   }
 
   deskLogic() {
@@ -47,19 +55,17 @@ export class Desks extends User {
    $logic.appendDoneTodos();
   }
   
-  initialRender() {
+  render(id = this.userID) {
     this.fetcher(
-      () => API.getUser(this.userID),
+      () => API.getUser(id),
       this.appendDesks.bind(this),
       ERROR_FETCHING_USER
     );
 
-    btnRemoveAll.addEvent("click", () => {
-      this.deskLogic().removeAll()
-    });
+    btnRemoveAll.addEvent("click", this.removeAllEvent);
 
-    btnAddTodo.addEvent('click', () => {
-      this.deskLogic().addNewTodo()
-    });
+    btnAddTodo.addEvent('click', this.addTodoEvent);
+
   }
+
 }

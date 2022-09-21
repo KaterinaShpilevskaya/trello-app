@@ -1,6 +1,7 @@
 import {$} from './DOM.js';
 
 const root = $('#root');
+const headerTitle = $('[data-header-title]');
 
 const clockLayout = $('[data-header-clock]');
 const createDeskTemplate = $('[data-create-todo-template]');
@@ -25,6 +26,7 @@ const headerUserAvatar = $('[data-header-avatar]');
 
 export {
     root,
+    headerTitle,
     clockLayout,
     createDeskTemplate,
     progressDeskTemplate,

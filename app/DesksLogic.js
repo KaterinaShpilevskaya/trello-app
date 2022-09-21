@@ -40,10 +40,10 @@ export class DesksLogic {
     appendCreateTodos() {
         const {create} = this.desks;
 
-        createDeskCount.text(create.length);
+        createDeskCount.text(create?.length);
 
 
-        if (create.length) {
+        if (create?.length) {
         create.forEach(el => {
 
           const createTemplate = $(
@@ -55,7 +55,7 @@ export class DesksLogic {
           const btnMove = createTemplate.find('[data-todo-btn-relocate]');
           btnMove.addEvent('click', () => {
             const limit = 5;
-            if(this.desks.progress.length >=limit) {
+            if(this.desks.progress?.length >=limit) {
               Modal.addWarningLimitLayout(limit);
               return;
             }
@@ -114,9 +114,9 @@ export class DesksLogic {
     appendProgressTodos() {
         const {progress} = this.desks;
 
-        progressDeskCount.text(progress.length);
+        progressDeskCount.text(progress?.length);
 
-        if (progress.length) {
+        if (progress?.length) {
         progress.forEach(el => {
         const progressTemplate = $(
           document.importNode(progressDeskTemplate.$el.content, true)
@@ -172,9 +172,9 @@ export class DesksLogic {
     appendDoneTodos() {
         const {done} = this.desks;
 
-        doneDeskCount.text(done.length);
+        doneDeskCount.text(done?.length);
 
-        if (done.length) {
+        if (done?.length) {
         done.forEach(el => {
         const doneTemplate = $(
           document.importNode(doneDeskTemplate.$el.content, true)
